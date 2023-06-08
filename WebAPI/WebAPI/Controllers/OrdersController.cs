@@ -9,6 +9,8 @@ using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Business.Abstract;
 using System.Security.Cryptography;
+using AutoMapper;
+using WebAPI.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -17,21 +19,11 @@ namespace WebAPI.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        private readonly IProduct_SubpieceService _productSubpieceService;
-        private readonly IOrderManufactureService _stationOrderService;
-        private readonly IDepartmentService _departmentService;
-        private readonly IProductService _productService;
-        public OrdersController(IOrderService orderService,
-            IProduct_SubpieceService productSubpieceService,
-            IOrderManufactureService stationOrderService,
-            IDepartmentService departmentService,
-            IProductService productService)
+        private readonly IMapper _mapper;
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
             _orderService = orderService;
-            _productSubpieceService = productSubpieceService;
-            _stationOrderService = stationOrderService;
-            _departmentService = departmentService;
-            _productService = productService;
+            _mapper = mapper;
         }
 
         // GET: api/orders
@@ -60,9 +52,9 @@ namespace WebAPI.Controllers
 
         // POST: api/orders
         [HttpPost("add")]
-        public IActionResult Add(Order order)
+        public IActionResult Add(OrderDto orderDto)
         {
-
+            var order = _mapper.Map<Order>(orderDto);
             var result = _orderService.Add(order);
             if (!result.Success)
             {

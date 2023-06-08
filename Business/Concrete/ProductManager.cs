@@ -17,22 +17,43 @@ namespace Business.Concrete
     {
         private readonly IProductDal _productDal;
         private readonly IProduct_SubpieceService _productSubpieceService;
+        private readonly ISubpieceService _subpieceService;
 
-        public ProductManager(IProductDal productDal, IProduct_SubpieceService productSubpieceService)
+        public ProductManager(IProductDal productDal, IProduct_SubpieceService productSubpieceService, ISubpieceService subpieceService)
         {
             _productDal = productDal;
             _productSubpieceService = productSubpieceService;
+            _subpieceService = subpieceService;
         }
 
-        public IResult Add(Product product)
+        public IResult Add(Product product, int[] subpieceId)
         {
             IResult result = BusinessRules.Run(CheckIfProductNameExists(product.Name));
-
             if (result != null)
             {
                 return result;
             }
+            decimal Cost = 0;
+            foreach (var s in subpieceId)
+            {
+                if (!_subpieceService.GetById(s).Success)
+                {
+                    return new ErrorResult(Messages.ProductNotFound);
+                }
+                Cost += _subpieceService.GetById(s).Data.Cost;
+            }
+
+            Cost *= (decimal)1.1;
+            product.Price = Cost;
             _productDal.Add(product);
+            foreach (var s in subpieceId)
+            {
+                var subpieceresult = _productSubpieceService.Add(new Product_Subpiece()
+                {
+                    ProductId = product.Id,
+                    SubpieceId = s
+                });
+            }
 
             return new SuccessResult(Messages.Added);
         }

@@ -74,41 +74,19 @@ namespace WebAPI.Controllers
         public IActionResult Add([FromQuery]int[] subpieceId, [FromBody] ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            decimal Cost = 0;
-            foreach (var s in subpieceId)
-            {
-                Cost += _subpieceService.GetById(s).Data.Cost;
-            }
-
-            Cost *= (decimal)1.1;
-            product.Price = Cost;
-
-            var result = _productService.Add(product);
+            var result = _productService.Add(product,subpieceId);
             if (!result.Success)
             {
                 return BadRequest(result);
             }
-            foreach (var s in subpieceId)
-            {
-                var subpieceresult = _productSubpieceService.Add(new Product_Subpiece()
-                {
-                    ProductId = product.Id,
-                    SubpieceId = s
-                });
-                if (!subpieceresult.Success)
-                {
-                    return BadRequest(subpieceresult);
-                }
-                
-            }
-            
             return Ok(result);
         }
 
         // POST: api/Products
         [HttpPost("update")]
-        public IActionResult Update(Product product)
+        public IActionResult Update(ProductDto productDto)
         {
+            var product = _mapper.Map<Product>(productDto);
             var result = _productService.Update(product);
             if (result.Success)
             {

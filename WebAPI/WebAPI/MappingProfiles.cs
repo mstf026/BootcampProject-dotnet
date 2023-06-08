@@ -10,6 +10,12 @@ namespace WebAPI
         {
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
+            CreateMap<Subpiece, SubpieceDto>();
+            CreateMap<SubpieceDto, Subpiece>();
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderDto, Order>();
+            CreateMap<Department, DepartmentDto>();
+            CreateMap<DepartmentDto, Department>();
         }
     }
 }

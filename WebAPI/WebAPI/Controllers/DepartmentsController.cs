@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Business.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entities.Concrete;
+using WebAPI.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -16,10 +18,12 @@ namespace WebAPI.Controllers
     public class DepartmentsController : ControllerBase
     {
         private readonly IDepartmentService _departmentService;
+        private readonly IMapper _mapper;
 
-        public DepartmentsController(IDepartmentService departmentService)
+        public DepartmentsController(IDepartmentService departmentService, IMapper mapper)
         {
             _departmentService = departmentService;
+            _mapper = mapper;
         }
 
         // GET: api/departments
@@ -48,8 +52,9 @@ namespace WebAPI.Controllers
 
         // POST: api/departments
         [HttpPost("add")]
-        public IActionResult Add(Department department)
+        public IActionResult Add(DepartmentDto departmentDto)
         {
+            var department = _mapper.Map<Department>(departmentDto);
             var result = _departmentService.Add(department);
             if (result.Success)
             {
