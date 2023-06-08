@@ -16,15 +16,56 @@ namespace Business.Concrete
     public class OrderManager : IOrderService
     {
         private readonly IOrderDal _orderDal;
-        public OrderManager(IOrderDal orderDal)
+        private readonly ISubpieceService _subpieceService;
+        private readonly IProduct_SubpieceService _productSubpieceService;
+        public OrderManager(IOrderDal orderDal, ISubpieceService subpieceService, IProduct_SubpieceService productSubpieceService)
         {
             _orderDal = orderDal;
+            _subpieceService = subpieceService;
+            _productSubpieceService = productSubpieceService;
         }
 
         public IResult Add(Order order)
         {
+
+            var result = _productSubpieceService.GetByProductId(order.ProductId);
+            if (!result.Success)
+            {
+                return new ErrorResult(Messages.ProductIdError);
+            }
+
+            var subpieces = result.Data;
+            foreach (var s in subpieces)
+            {
+                var orderResult = CheckIfAnySubpieceIsOutOfStock(s.SubpieceId, order.Quantity);
+                if (!orderResult.Success)
+                {
+                    return new ErrorResult(Messages.NoStock);
+                }
+            }
+            if (order.Quantity % 5 != 0)
+            {
+
+                return new ErrorResult(Messages.QuantityError);
+            }
             _orderDal.Add(order);
-            return new SuccessDataResult<Order>(Messages.Added);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfAnySubpieceIsOutOfStock(int subpieceId,int orderQuantity)
+        {
+            var result = _subpieceService.GetById(subpieceId);
+            if (!result.Success)
+            {
+                return new ErrorResult(Messages.ProductNotFound);
+            }
+
+            if (result.Data.UnitsInStock < orderQuantity || orderQuantity < 0)
+            {
+                return new ErrorResult(Messages.QuantityError);
+            }
+
+            return new SuccessResult();
         }
 
         public IResult Add(Product product, Subpiece subpiece)

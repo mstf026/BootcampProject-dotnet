@@ -14,5 +14,6 @@ namespace Business.Abstract
         IDataResult<Subpiece> GetById(int subpieceId);
         List<Subpiece> GetByStationId(int stationId);
         IResult Add(Subpiece subpiece);
+        IResult Update(Subpiece subpiece);
     }
 }

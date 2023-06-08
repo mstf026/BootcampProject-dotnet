@@ -20,19 +20,31 @@ namespace WebAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             builder.Services.AddSingleton<IProductService, ProductManager>();
             builder.Services.AddSingleton<IProductDal, EfProductDal>();
+
             builder.Services.AddSingleton<ISubpieceService, SubpieceManager>();
             builder.Services.AddSingleton<ISubpieceDal, EfSubpieceDal>();
+
             builder.Services.AddSingleton<IProduct_SubpieceService, Product_SubpieceManager>();
             builder.Services.AddSingleton<IProduct_SubpieceDal, EfProduct_SubpieceDal>();
+
             builder.Services.AddSingleton<IDepartmentService, DepartmentManager>();
             builder.Services.AddSingleton<IDepartmentDal, EfDepartmentDal>();
+
             builder.Services.AddSingleton<IOrderService, OrderManager>();
             builder.Services.AddSingleton<IOrderDal, EfOrderDal>();
-            builder.Services.AddSingleton<IStationOrderService, AStationManager>();
-            builder.Services.AddSingleton<IStationOrderService, BStationManager>();
 
+            builder.Services.AddSingleton<IOrderManufactureService, OrderManufactureManager>();
+
+            builder.Services.AddSingleton<IStationService, StationManager>();
+            builder.Services.AddSingleton<IStationDal, EfStationDal>();
+
+            builder.Services.AddSingleton<ISectionService, SectionManager>();
+            builder.Services.AddSingleton<ISectionDal, EfSectionDal>();
 
             var app = builder.Build();
 

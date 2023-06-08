@@ -8,9 +8,9 @@ using Entities.Concrete;
 
 namespace Business.Abstract
 {
-    public interface IStationOrderService
+    public interface IOrderManufactureService
     {
-        IDataResult<List<Subpiece>> GetAllSubpiecesByStationId();
-        IResult Add(Product product, Subpiece subpiece);
+        IDataResult<List<Subpiece>> GetAllSubpiecesByStationId(int id);
+        IResult Add(int orderId, int stationId);
     }
 }

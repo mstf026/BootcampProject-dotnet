@@ -1,14 +1,15 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 
 namespace ConsoleUI
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Merhaba");
         }
     }
 }

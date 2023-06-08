@@ -45,17 +45,5 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
-        // POST: api/product_subpieces
-        [HttpPost("add")]
-        public IActionResult Add(Product_Subpiece productSubpiece)
-        {
-            var result = _productSubpieceService.Add(productSubpiece);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
     }
 }

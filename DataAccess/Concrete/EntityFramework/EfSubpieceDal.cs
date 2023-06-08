@@ -16,7 +16,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (BoschContext context = new BoschContext())
             {
-                return context.Subpiece.FirstOrDefault(s => s.Id == id);
+                return context.Subpieces.FirstOrDefault(s => s.Id == id);
             }
         }
     }

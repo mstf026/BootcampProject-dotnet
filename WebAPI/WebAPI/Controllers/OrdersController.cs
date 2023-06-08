@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Business.Abstract;
+using System.Security.Cryptography;
 
 namespace WebAPI.Controllers
 {
@@ -16,10 +17,21 @@ namespace WebAPI.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-
-        public OrdersController(IOrderService orderService)
+        private readonly IProduct_SubpieceService _productSubpieceService;
+        private readonly IOrderManufactureService _stationOrderService;
+        private readonly IDepartmentService _departmentService;
+        private readonly IProductService _productService;
+        public OrdersController(IOrderService orderService,
+            IProduct_SubpieceService productSubpieceService,
+            IOrderManufactureService stationOrderService,
+            IDepartmentService departmentService,
+            IProductService productService)
         {
             _orderService = orderService;
+            _productSubpieceService = productSubpieceService;
+            _stationOrderService = stationOrderService;
+            _departmentService = departmentService;
+            _productService = productService;
         }
 
         // GET: api/orders
@@ -50,12 +62,15 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add(Order order)
         {
+
             var result = _orderService.Add(order);
-            if (result.Success)
+            if (!result.Success)
             {
-                return Ok(result);
+                return BadRequest(result);
             }
-            return BadRequest(result);
+
+            return Ok(result);
         }
+
     }
 }

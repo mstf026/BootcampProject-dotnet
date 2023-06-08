@@ -38,6 +38,17 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        public IResult Update(Subpiece subpiece)
+        {
+            if (subpiece.Name.Length < 2)
+            {
+                return new ErrorResult(Messages.NameInvalid);
+            }
+            _subpieceDal.Update(subpiece);
+
+            return new SuccessResult(Messages.Updated);
+        }
+
         public IDataResult<List<Subpiece>> GetAll()
         {
             return new SuccessDataResult<List<Subpiece>>(_subpieceDal.GetAll());

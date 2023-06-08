@@ -31,6 +31,17 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        public IResult Update(Department department)
+        {
+            if (department.Name.Length < 2)
+            {
+                return new ErrorResult(Messages.NameInvalid);
+            }
+            _departmentDal.Update(department);
+
+            return new SuccessResult(Messages.Added);
+        }
+
         public IDataResult<List<Department>> GetAll()
         {
             return new SuccessDataResult<List<Department>>(_departmentDal.GetAll());

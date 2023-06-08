@@ -20,21 +20,19 @@ namespace DataAccess.Concrete.EntityFramework
 
         public BoschContext()
         {
-              void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-GVKRO6C;Database=BoschProject;Trusted_Connection=true;TrustServerCertificate=True");
-            }
         }
 
 
-        public DbSet<Department> Department { get; set; } = default!;
+        public DbSet<Department> Departments { get; set; } = default!;
 
-        public DbSet<Product> Product { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        public DbSet<Subpiece> Subpiece { get; set; }
+        public DbSet<Subpiece> Subpieces { get; set; }
 
-        public DbSet<Product_Subpiece> Product_Subpiece { get; set; }
-        public DbSet<Order> Order { get; set; }
-        
+        public DbSet<Product_Subpiece> Product_Subpieces { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Station> Stations { get; set; }
+
     }
 }

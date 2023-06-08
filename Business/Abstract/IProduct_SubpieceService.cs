@@ -11,7 +11,7 @@ namespace Business.Abstract
     public interface IProduct_SubpieceService
     {
         IDataResult<List<Product_Subpiece>> GetAll();
-        IDataResult<Product_Subpiece> GetByProductId(int productId);
+        IDataResult<List<Product_Subpiece>> GetByProductId(int productId);
         IResult Add(Product_Subpiece productSubpiece);
     }
 }

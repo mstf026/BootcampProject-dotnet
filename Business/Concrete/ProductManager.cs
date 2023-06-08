@@ -16,10 +16,12 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         private readonly IProductDal _productDal;
+        private readonly IProduct_SubpieceService _productSubpieceService;
 
-        public ProductManager(IProductDal productDal)
+        public ProductManager(IProductDal productDal, IProduct_SubpieceService productSubpieceService)
         {
             _productDal = productDal;
+            _productSubpieceService = productSubpieceService;
         }
 
         public IResult Add(Product product)
@@ -30,10 +32,29 @@ namespace Business.Concrete
             {
                 return result;
             }
-
             _productDal.Add(product);
 
             return new SuccessResult(Messages.Added);
+        }
+
+        public IResult Update(Product product)
+        {
+            var result = _productDal.Get(p=>p.Id==product.Id);
+            if (result == null)
+            {
+                return new ErrorResult(Messages.ProductNotFound);
+            }
+
+            _productDal.Update(new Product()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ModelNumber = product.ModelNumber,
+                Price = product.Price,
+                Type = product.Type
+            });
+
+            return new SuccessResult(Messages.Updated);
         }
 
         private IResult CheckIfProductNameExists(string productName)

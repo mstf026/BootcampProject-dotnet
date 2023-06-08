@@ -31,9 +31,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product_Subpiece>>(_productSubpieceDal.GetAll());
         }
 
-        public IDataResult<Product_Subpiece> GetByProductId(int productId)
+        public IDataResult<List<Product_Subpiece>> GetByProductId(int productId)
         {
-            return new SuccessDataResult<Product_Subpiece>(_productSubpieceDal.Get(p => p.Id == productId));
+            return new SuccessDataResult<List<Product_Subpiece>>(_productSubpieceDal.GetAll(p => p.ProductId == productId));
         }
     }
 }
