@@ -17,8 +17,8 @@ namespace Business.Concrete
     {
         private readonly IOrderDal _orderDal;
         private readonly ISubpieceService _subpieceService;
-        private readonly IProduct_SubpieceService _productSubpieceService;
-        public OrderManager(IOrderDal orderDal, ISubpieceService subpieceService, IProduct_SubpieceService productSubpieceService)
+        private readonly IProductSubpieceService _productSubpieceService;
+        public OrderManager(IOrderDal orderDal, ISubpieceService subpieceService, IProductSubpieceService productSubpieceService)
         {
             _orderDal = orderDal;
             _subpieceService = subpieceService;

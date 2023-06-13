@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Core.Extensions;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ namespace WebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddCors();
+
 
             builder.Services.AddSingleton<IProductService, ProductManager>();
             builder.Services.AddSingleton<IProductDal, EfProductDal>();
@@ -29,7 +32,7 @@ namespace WebAPI
             builder.Services.AddSingleton<ISubpieceService, SubpieceManager>();
             builder.Services.AddSingleton<ISubpieceDal, EfSubpieceDal>();
 
-            builder.Services.AddSingleton<IProduct_SubpieceService, Product_SubpieceManager>();
+            builder.Services.AddSingleton<IProductSubpieceService, ProductSubpieceManager>();
             builder.Services.AddSingleton<IProduct_SubpieceDal, EfProduct_SubpieceDal>();
 
             builder.Services.AddSingleton<IDepartmentService, DepartmentManager>();
@@ -54,6 +57,10 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.ConfigureCustomExceptionMiddleware();
+
+            app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

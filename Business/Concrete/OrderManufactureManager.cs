@@ -14,7 +14,7 @@ namespace Business.Concrete
     public class OrderManufactureManager : IOrderManufactureService
     {
         private readonly ISubpieceService _subpieceService;
-        private readonly IProduct_SubpieceService _productSubpieceService;
+        private readonly IProductSubpieceService _productSubpieceService;
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
         private readonly IDepartmentService _departmentService;
@@ -23,7 +23,7 @@ namespace Business.Concrete
 
         public OrderManufactureManager(
             ISubpieceService subpieceService,
-            IProduct_SubpieceService productSubpieceService,
+            IProductSubpieceService productSubpieceService,
             IOrderService orderService,
             IProductService productService,
             IDepartmentService departmentService,
@@ -59,9 +59,22 @@ namespace Business.Concrete
                 {
                     if (s.Id == p.SubpieceId)
                     {
-                        
-                        _subpieceService.Update(new Subpiece() { Id = s.Id, UnitsInStock = s.UnitsInStock - order.Quantity, StationId = s.StationId, Cost = s.Cost, Name = s.Name, UniqueNumber = s.UniqueNumber });
-                        
+                        if (s.UnitsInStock>=order.Quantity)
+                        {
+                            _subpieceService.Update(new Subpiece()
+                            {
+                                Id = s.Id,
+                                UnitsInStock = s.UnitsInStock - order.Quantity,
+                                StationId = s.StationId,
+                                Cost = s.Cost, Name = s.Name,
+                                UniqueNumber = s.UniqueNumber
+                            });
+                        }
+                        else
+                        {
+                            return new ErrorResult(Messages.QuantityError);
+                        }
+
                         foreach (var section in sections)
                         {
                             if (section.ModelNumber.Equals(order.ModelNumber))

@@ -13,8 +13,10 @@ namespace Business.Abstract
         IDataResult<List<Product>> GetAll();
         IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max);
         IDataResult<Product> GetById(int productId);
-        IResult Add(Product product, int[] subpieceId);
+        IDataResult<Product> GetLastProduct();
+        IResult Add(Product product);
         IResult Update(Product product);
+
 
     }
 }

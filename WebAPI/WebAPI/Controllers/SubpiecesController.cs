@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
 
         // POST: api/subpieces
         [HttpPost("add")]
-        public IActionResult Add(SubpieceDto subpieceDto)
+        public IActionResult Add([FromQuery]SubpieceDto subpieceDto)
         {
             var subpiece = _mapper.Map<Subpiece>(subpieceDto);
             var result = _subpieceService.Add(subpiece);

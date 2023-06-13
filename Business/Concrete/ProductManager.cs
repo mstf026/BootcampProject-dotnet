@@ -6,6 +6,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,44 +17,25 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         private readonly IProductDal _productDal;
-        private readonly IProduct_SubpieceService _productSubpieceService;
-        private readonly ISubpieceService _subpieceService;
 
-        public ProductManager(IProductDal productDal, IProduct_SubpieceService productSubpieceService, ISubpieceService subpieceService)
+        public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
-            _productSubpieceService = productSubpieceService;
-            _subpieceService = subpieceService;
+
         }
 
-        public IResult Add(Product product, int[] subpieceId)
+
+        public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(CheckIfProductNameExists(product.Name));
             if (result != null)
             {
                 return result;
             }
-            decimal Cost = 0;
-            foreach (var s in subpieceId)
-            {
-                if (!_subpieceService.GetById(s).Success)
-                {
-                    return new ErrorResult(Messages.ProductNotFound);
-                }
-                Cost += _subpieceService.GetById(s).Data.Cost;
-            }
+            decimal cost = 0;
 
-            Cost *= (decimal)1.1;
-            product.Price = Cost;
+            product.Price = cost;
             _productDal.Add(product);
-            foreach (var s in subpieceId)
-            {
-                var subpieceresult = _productSubpieceService.Add(new Product_Subpiece()
-                {
-                    ProductId = product.Id,
-                    SubpieceId = s
-                });
-            }
 
             return new SuccessResult(Messages.Added);
         }
@@ -90,12 +72,14 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour== 23)
-            {
-                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
-            }
-
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductsListed);
+        }
+
+        public IDataResult<Product> GetLastProduct()
+        {
+            var result = _productDal.GetAll().ToArray();
+
+            return new SuccessDataResult<Product>(result[result.Length-1]);
         }
 
         public IDataResult<Product> GetById(int productId)

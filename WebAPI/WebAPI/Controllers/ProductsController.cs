@@ -18,19 +18,15 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IProduct_SubpieceService _productSubpieceService;
-        private readonly ISubpieceService _subpieceService;
         private readonly IMapper _mapper;
-        public ProductsController(
-            IProductService productService,
-            IProduct_SubpieceService productSubpieceService,
-            IMapper mapper,
-            ISubpieceService subpieceService)
+        private readonly IProductSubpieceService _productSubpieceService;
+        public ProductsController(IProductService productService,
+            IProductSubpieceService productSubpieceService,
+            IMapper mapper)
         {
             _productService = productService;
             _mapper = mapper;
             _productSubpieceService = productSubpieceService;
-            _subpieceService = subpieceService;
         }
 
         // GET: api/Products
@@ -69,12 +65,34 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getlast")]
+        public IActionResult GetLastProduct()
+        {
+            var result = _productService.GetLastProduct();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         // POST: api/Products
         [HttpPost("add")]
-        public IActionResult Add([FromQuery]int[] subpieceId, [FromBody] ProductDto productDto)
+        public IActionResult Add([FromBody] ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-            var result = _productService.Add(product,subpieceId);
+            var result = _productService.Add(product);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("addsubpieces")]
+        public IActionResult AddSubpieces(int[] subpieceId)
+        {
+            var result = _productSubpieceService.Add(subpieceId);
             if (!result.Success)
             {
                 return BadRequest(result);

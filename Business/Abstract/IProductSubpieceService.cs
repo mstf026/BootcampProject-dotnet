@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IProduct_SubpieceService
+    public interface IProductSubpieceService
     {
         IDataResult<List<Product_Subpiece>> GetAll();
         IDataResult<List<Product_Subpiece>> GetByProductId(int productId);
-        IResult Add(Product_Subpiece productSubpiece);
+        IResult Add(int[] subpieceId);
     }
 }

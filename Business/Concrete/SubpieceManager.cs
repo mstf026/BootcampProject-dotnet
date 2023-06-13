@@ -33,6 +33,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.NameInvalid);
             }
+
             _subpieceDal.Add(subpiece);
 
             return new SuccessResult(Messages.Added);

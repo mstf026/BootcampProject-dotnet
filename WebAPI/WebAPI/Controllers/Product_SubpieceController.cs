@@ -15,9 +15,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class Product_SubpieceController : ControllerBase
     {
-        private readonly IProduct_SubpieceService _productSubpieceService;
+        private readonly IProductSubpieceService _productSubpieceService;
 
-        public Product_SubpieceController(IProduct_SubpieceService productSubpieceService)
+        public Product_SubpieceController(IProductSubpieceService productSubpieceService)
         {
             _productSubpieceService = productSubpieceService;
         }
