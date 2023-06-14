@@ -10,10 +10,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class BoschContext : DbContext
     {
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"Server=DESKTOP-GVKRO6C;Database=BoschProject;Trusted_Connection=true;TrustServerCertificate=True");
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source=myboschproject2612-server.database.windows.net,1433;Initial Catalog=BoschProject;User ID=myboschproject2612-server-admin;Password=2FF2H8A2L7OYD13V$");
+        }
         public BoschContext(DbContextOptions<BoschContext> options) : base(options)
         {
         }
