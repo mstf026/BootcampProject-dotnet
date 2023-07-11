@@ -9,7 +9,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProduct_SubpieceDal: EfEntityRepositoryBase<Product_Subpiece, BoschContext>, IProduct_SubpieceDal
+    public class EfProductSubpieceDal: EfEntityRepositoryBase<ProductSubpiece, BoschContext>, IProductSubpieceDal
     {
     }
 }

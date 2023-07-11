@@ -1,16 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Utilities.Business;
+using FluentValidation;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -24,17 +20,13 @@ namespace Business.Concrete
 
         }
 
-
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            IResult result = BusinessRules.Run(CheckIfProductNameExists(product.Name));
-            if (result != null)
-            {
-                return result;
-            }
-            decimal cost = 0;
+            decimal cost = 1;
 
             product.Price = cost;
+            
             _productDal.Add(product);
 
             return new SuccessResult(Messages.Added);
@@ -90,6 +82,12 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.Price >= min && p.Price <= max));
+        }
+
+        public IResult Delete(Product product)
+        {
+            _productDal.Delete(product);
+            return new SuccessResult(Messages.ProductIsDeleted);
         }
     }
 }

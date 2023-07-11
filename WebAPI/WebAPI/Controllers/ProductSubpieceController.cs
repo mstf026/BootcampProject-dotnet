@@ -13,11 +13,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Product_SubpieceController : ControllerBase
+    public class ProductSubpieceController : ControllerBase
     {
         private readonly IProductSubpieceService _productSubpieceService;
 
-        public Product_SubpieceController(IProductSubpieceService productSubpieceService)
+        public ProductSubpieceController(IProductSubpieceService productSubpieceService)
         {
             _productSubpieceService = productSubpieceService;
         }

@@ -8,7 +8,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Abstract
 {
-    public interface IProduct_SubpieceDal: IEntityRepository<Product_Subpiece>
+    public interface IProductSubpieceDal: IEntityRepository<ProductSubpiece>
     {
     }
 }

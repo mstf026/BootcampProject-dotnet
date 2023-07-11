@@ -21,5 +21,8 @@ namespace Business.Constants
         public static string ProductNotFound = "Product Not Found";
         public static string ProductIdError = "ProductId does not exist";
         public static string OrderNotFound = "Order Not Found";
+        public static string ProductIsDeleted = "Product is deleted";
+        public static string SubpieceIsDeleted = "Subpiece is deleted";
+        public static string OrderIsDeleted = "Order is deleted";
     }
 }

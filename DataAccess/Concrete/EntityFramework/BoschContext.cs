@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=myboschproject2612-server.database.windows.net,1433;Initial Catalog=BoschProject;User ID=myboschproject2612-server-admin;Password=2FF2H8A2L7OYD13V$");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-GVKRO6C;Database=BoschProject;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         }
         public BoschContext(DbContextOptions<BoschContext> options) : base(options)
         {
@@ -29,7 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Subpiece> Subpieces { get; set; }
 
-        public DbSet<Product_Subpiece> Product_Subpieces { get; set; }
+        public DbSet<ProductSubpiece> Product_Subpieces { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Station> Stations { get; set; }

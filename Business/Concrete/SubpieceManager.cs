@@ -59,5 +59,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Subpiece>(_subpieceDal.Get(s => s.Id == subpieceId));
         }
+
+        public IResult Delete(Subpiece subpiece)
+        {
+            _subpieceDal.Delete(subpiece);
+            return new SuccessResult(Messages.SubpieceIsDeleted);
+        }
     }
 }

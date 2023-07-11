@@ -10,8 +10,8 @@ namespace Business.Abstract
 {
     public interface IProductSubpieceService
     {
-        IDataResult<List<Product_Subpiece>> GetAll();
-        IDataResult<List<Product_Subpiece>> GetByProductId(int productId);
+        IDataResult<List<ProductSubpiece>> GetAll();
+        IDataResult<List<ProductSubpiece>> GetByProductId(int productId);
         IResult Add(int[] subpieceId);
     }
 }

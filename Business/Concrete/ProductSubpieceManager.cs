@@ -13,11 +13,11 @@ namespace Business.Concrete
 {
     public class ProductSubpieceManager : IProductSubpieceService
     {
-        private readonly IProduct_SubpieceDal _productSubpieceDal;
+        private readonly IProductSubpieceDal _productSubpieceDal;
         private readonly ISubpieceService _subpieceService;
         private readonly IProductService _productService;
 
-        public ProductSubpieceManager(IProduct_SubpieceDal productSubpieceDal,
+        public ProductSubpieceManager(IProductSubpieceDal productSubpieceDal,
             ISubpieceService subpieceService,
             IProductService productService)
         {
@@ -49,7 +49,7 @@ namespace Business.Concrete
             });
             foreach (var s in subpieceId)
             {
-                _productSubpieceDal.Add(new Product_Subpiece()
+                _productSubpieceDal.Add(new ProductSubpiece()
                 {
                     ProductId = product.Id,
                     SubpieceId = s
@@ -59,14 +59,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
-        public IDataResult<List<Product_Subpiece>> GetAll()
+        public IDataResult<List<ProductSubpiece>> GetAll()
         {
-            return new SuccessDataResult<List<Product_Subpiece>>(_productSubpieceDal.GetAll());
+            return new SuccessDataResult<List<ProductSubpiece>>(_productSubpieceDal.GetAll());
         }
 
-        public IDataResult<List<Product_Subpiece>> GetByProductId(int productId)
+        public IDataResult<List<ProductSubpiece>> GetByProductId(int productId)
         {
-            return new SuccessDataResult<List<Product_Subpiece>>(_productSubpieceDal.GetAll(p => p.ProductId == productId));
+            return new SuccessDataResult<List<ProductSubpiece>>(_productSubpieceDal.GetAll(p => p.ProductId == productId));
         }
     }
 }

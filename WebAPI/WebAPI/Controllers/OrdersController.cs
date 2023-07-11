@@ -64,5 +64,16 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("delete")]
+        public IActionResult Delete(Order order)
+        {
+            var result = _orderService.Delete(order);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }

@@ -82,5 +82,11 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Order>(_orderDal.Get(o=>o.Id == id));
         }
+
+        public IResult Delete(Order order)
+        {
+            _orderDal.Delete(order);
+            return new SuccessResult(Messages.OrderIsDeleted);
+        }
     }
 }

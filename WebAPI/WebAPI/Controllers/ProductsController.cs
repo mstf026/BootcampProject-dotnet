@@ -89,6 +89,17 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("delete")]
+        public IActionResult Delete(Product product)
+        {
+            var result = _productService.Delete(product);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpPost("addsubpieces")]
         public IActionResult AddSubpieces(int[] subpieceId)
         {
