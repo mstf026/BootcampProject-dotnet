@@ -17,24 +17,27 @@ namespace Business.Concrete
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
-
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
+
             decimal cost = 1;
 
             product.Price = cost;
-            
+
             _productDal.Add(product);
 
             return new SuccessResult(Messages.Added);
+
+                
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
-            var result = _productDal.Get(p=>p.Id==product.Id);
+            var result = _productDal.GetAll(p=>p.Id==product.Id);
             if (result == null)
             {
                 return new ErrorResult(Messages.ProductNotFound);
