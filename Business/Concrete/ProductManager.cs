@@ -19,6 +19,8 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        //Claim - yetkiler
+        //[SecuredOperation("admin,editor")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
