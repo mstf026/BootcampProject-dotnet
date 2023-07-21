@@ -7,6 +7,7 @@ using FluentValidation;
 using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Validation;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -20,7 +21,7 @@ namespace Business.Concrete
         }
 
         //Claim - yetkiler
-        //[SecuredOperation("admin,editor")]
+        [SecuredOperation("admin,product.add")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {

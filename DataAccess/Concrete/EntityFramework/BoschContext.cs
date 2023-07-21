@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Concrete;
+using Core.Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -33,6 +34,9 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Order> Orders { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Station> Stations { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
     }
 }

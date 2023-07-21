@@ -14,12 +14,12 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(P => P.Name).NotEmpty();
             RuleFor(p=>p.ModelNumber).Length(2);
-            RuleFor(p => p.Name).Must(StartWithA);
+            
         }
 
-        private bool StartWithA(string arg)
-        {
-            return arg.StartsWith("A");
-        }
+        //private bool StartWithA(string arg)
+        //{
+        //    return arg.StartsWith("A");
+        //}
     }
 }

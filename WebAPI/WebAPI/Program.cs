@@ -1,13 +1,23 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
+using Core.DependencyResolvers;
 using Core.Extensions;
+using Core.Utilities.IoC;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
+
+
 namespace WebAPI
 {
     public class Program
@@ -33,44 +43,47 @@ namespace WebAPI
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddCors();
 
+            
 
-            //builder.Services.AddSingleton<IProductService, ProductManager>();
-            //builder.Services.AddSingleton<IProductDal, EfProductDal>();
+            var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
-            //builder.Services.AddSingleton<ISubpieceService, SubpieceManager>();
-            //builder.Services.AddSingleton<ISubpieceDal, EfSubpieceDal>();
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                    };
+                });
+            builder.Services.AddDependencyResolvers(new ICoreModule[]{
+                new CoreModule()
+            });
 
-            //builder.Services.AddSingleton<IProductSubpieceService, ProductSubpieceManager>();
-            //builder.Services.AddSingleton<IProductSubpieceDal, EfProductSubpieceDal>();
-
-            //builder.Services.AddSingleton<IDepartmentService, DepartmentManager>();
-            //builder.Services.AddSingleton<IDepartmentDal, EfDepartmentDal>();
-
-            //builder.Services.AddSingleton<IOrderService, OrderManager>();
-            //builder.Services.AddSingleton<IOrderDal, EfOrderDal>();
-
-            //builder.Services.AddSingleton<IOrderManufactureService, OrderManufactureManager>();
-
-            //builder.Services.AddSingleton<IStationService, StationManager>();
-            //builder.Services.AddSingleton<IStationDal, EfStationDal>();
-
-            //builder.Services.AddSingleton<ISectionService, SectionManager>();
-            //builder.Services.AddSingleton<ISectionDal, EfSectionDal>();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
 
             app.ConfigureCustomExceptionMiddleware();
 
             app.UseCors(builder=>builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
