@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-GVKRO6C;Database=BoschProject;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer(@"Data Source = tcp:myboschproject2612 - server.database.windows.net, 1433; Initial Catalog = BoschProject; User Id = myboschproject2612 - server - admin@myboschproject2612 - server; Password = 2FF2H8A2L7OYD13V$");
         }
         public BoschContext(DbContextOptions<BoschContext> options) : base(options)
         {
