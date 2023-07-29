@@ -24,7 +24,7 @@ namespace Business.Concrete
         //Claim - yetkiler
         [SecuredOperation("admin,product.add")]
         [ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
 
@@ -40,7 +40,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        //[CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             var result = _productDal.GetAll(p=>p.Id==product.Id);
@@ -71,7 +71,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [CacheAspect] //key,value
+        //[CacheAspect] //key,value
         public IDataResult<List<Product>> GetAll()
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductsListed);
@@ -84,7 +84,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>(result[result.Length-1]);
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p=>p.Id == productId));
