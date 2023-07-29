@@ -22,9 +22,9 @@ namespace Business.Concrete
         }
 
         //Claim - yetkiler
+        //[CacheRemoveAspect("IProductService.Get")]
         [SecuredOperation("admin,product.add")]
         [ValidationAspect(typeof(ProductValidator))]
-        //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
 
@@ -39,8 +39,8 @@ namespace Business.Concrete
                 
         }
 
-        [ValidationAspect(typeof(ProductValidator))]
         //[CacheRemoveAspect("IProductService.Get")]
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
             var result = _productDal.GetAll(p=>p.Id==product.Id);
