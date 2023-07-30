@@ -40,6 +40,7 @@ namespace Business.Concrete
         }
 
         //[CacheRemoveAspect("IProductService.Get")]
+        [SecuredOperation("admin,product.add")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
@@ -95,6 +96,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.Price >= min && p.Price <= max));
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);

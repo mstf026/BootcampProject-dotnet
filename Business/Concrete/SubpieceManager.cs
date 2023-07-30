@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Entities;
 using Core.Utilities.Results;
@@ -27,6 +28,7 @@ namespace Business.Concrete
             return new List<Subpiece>(_subpieceDal.GetAll(s => s.StationId == stationId));
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Add(Subpiece subpiece)
         {
             if (subpiece.Name.Length < 2)
@@ -39,6 +41,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Update(Subpiece subpiece)
         {
             if (subpiece.Name.Length < 2)
@@ -60,6 +63,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Subpiece>(_subpieceDal.Get(s => s.Id == subpieceId));
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Delete(Subpiece subpiece)
         {
             _subpieceDal.Delete(subpiece);

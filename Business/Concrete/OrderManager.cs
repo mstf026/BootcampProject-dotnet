@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -25,6 +26,7 @@ namespace Business.Concrete
             _productSubpieceService = productSubpieceService;
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Add(Order order)
         {
 
@@ -68,10 +70,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IResult Add(Product product, Subpiece subpiece)
-        {
-            throw new NotImplementedException();
-        }
 
         public IDataResult<List<Order>> GetAll()
         {
@@ -83,6 +81,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Order>(_orderDal.Get(o=>o.Id == id));
         }
 
+        [SecuredOperation("admin,product.add")]
         public IResult Delete(Order order)
         {
             _orderDal.Delete(order);
